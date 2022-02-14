@@ -122,3 +122,43 @@ Multi-frame human pose estimation in complicated situations is challenging. Alth
     pages     = {525-534}
 }
 ```
+
+
+
+# Note
+
+低版本(torch 1.40)
+Add 8.6 to `supported_arches` of `/home/ubuntu/data/miniconda3/envs/DCPose/lib/python3.6/site-packages/torch/utils/cpp_extension.py` in Line 1001, so the DCN can be normally installed.
+```
+cd thirdparty/deform_conv
+python setup.py develop
+```
+
+执行demo.py时遇到CUDA error: no kernel image is available for execution on the device
+
+
+-----------------------------
+高版本(torch 1.10)
+```
+conda create -n DCPose python=3.6.12
+source activate DCPose
+
+
+
+conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch
+
+pip install -r DCPose_requirement.txt
+
+cd thirdparty/deform_conv
+python setup.py develop
+
+```
+
+error: ‘AT_CHECK’ was not declared in this scope
+在编译deform_conv时遇到问题：error: ‘AT_CHECK’ was not declared in this scope
+
+错误原因：AT_CHECK is deprecated in torch 1.5
+高版本的pytorch不再使用AT_CHECK，而是使用 TORCH_CHECK。
+
+解决方法：将所有待编译的源文件中的‘AT_CHECK’全部替换为‘TORCH_CHECK’。
+
